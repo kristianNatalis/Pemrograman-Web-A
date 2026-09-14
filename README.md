@@ -37,4 +37,4 @@ Sudah dicek dengan [W3C Markup Validator](https://validator.w3.org/) dan bersih 
 
 ## Lisensi
 
-&copy; 2026 Kristian Natalis. Hak cipta dilindungi.
+Copyright (c) 2026 moon
