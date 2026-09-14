@@ -16,7 +16,7 @@ Halaman web profil diri sederhana berbasis HTML & CSS, dibuat oleh **Kristian Na
 ```
 .
 ├── profil.html   # halaman utama
-├── foto.png      # foto profil (perlu ditambahkan sendiri, belum termasuk)
+├── foto.png      # foto profil 
 └── README.md
 ```
 
