@@ -1,0 +1,135 @@
+/* B.2 Reset dasar dan box-sizing */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f3effb;
+}
+
+/* B.3 Flexbox pada header dan nav */
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 16px;
+    background-color: #f3effb;
+}
+
+nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px 16px;             
+    margin: 16px 0 20px 0;
+}
+
+nav a {
+    color: #8a0394;              
+    font-weight: bold;
+    padding: 8px 16px;          /* biar area klik lebih luas*/
+    background-color: #ffffff;   /* buat background */
+}
+
+
+/* Elemen Header & Tabel Responsif */
+.center-content {
+    text-align: center;
+    width: 100%;
+    max-width: 100%;
+}
+
+.center-content table {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.color-text {
+    color: rgb(143, 3, 148);
+}
+
+img {
+    border: 2px solid #ff0dfb;
+    width: 150px;
+    height: 150px;
+    margin: 10px 0;
+}
+
+table {
+    border: 2px solid #8a0394;
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 400px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+td {
+    padding: 8px;
+    border: 1px solid #5d0069;
+}
+
+/* B.4 CSS Grid pada daftar artikel */
+.daftar-artikel {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 12px 0;
+}
+
+.daftar-artikel article {
+    border: 1px solid #f4ebeb;
+    border-radius: 8px;
+    padding: 16px;
+    background-color: #ffffff;
+}
+
+/* B.5 Menata main & aside berdampingan */
+main {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 16px;
+}
+
+aside {
+    background-color: #f2f2f2;
+    padding: 16px;
+    border-radius: 8px;
+}
+
+/* B.6 Media query mobile-first */
+@media (min-width: 768px) {
+    .daftar-artikel {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    main {
+        flex-direction: row;
+    }
+    main > section {
+        flex: 3;
+    }
+    main > aside {
+        flex: 1;
+    }
+}
+
+@media (min-width: 1024px) {
+    .daftar-artikel {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #ffffff;
+    border-top: 1px solid #e0d5f5;
+    margin-top: 20px;
+}
