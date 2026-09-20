@@ -1,145 +1,106 @@
 <!DOCTYPE html>
 <html lang="id">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Profil Diri Saya</title>
-        <style>
-            .center-content{
-                text-align: center;
-            }
-            .center-content table {
-             margin-left: auto;
-             margin-right: auto;
-            }
-            
-            .green-text{
-                color:  rgb(13, 148, 3);
-            }
-            img{
-                border: 2px solid #000;
-                 width: 150px;
-                height: 150px;
-            }
-            table{
-                border: 10px solid #196e01;
-                width: 500px;
-                background-color: #ffffff;
-                
-            }
-            td{
-                padding: 8px;
-                border: 1px solid #006907;
-            }
-            nav{
-              margin-bottom: 20px;  
-            }
-            nav a{
-                margin: 0 7px;
-                color: rgb(13, 148, 3);
-                font-weight: bold;
-            }
-
-
-        </style>
-    </head>
-    <body>
-        <header>
-            <div class="center-content">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Diri Saya</title>
+    <link rel="stylesheet" href="ProfilSemantik.css">
+</head>
+<body>
+    <header>
+        <div class="center-content">
             <nav>
-                <a href="#Tentang">About </a>
-                <a href="#Hobi">Hobi</a>
-                <a href="#Kemampuan">Kemampuan</a>
-                <a href="#Portofolio">Portofolio</a>
-                <a href="#Kontak">Kontak</a>
+                <a href="#Tentang" class="color-text">About</a>
+                <a href="#Hobi" class="color-text">Hobi</a>
+                <a href="#Kemampuan" class="color-text">Kemampuan</a>
+                <a href="#Portofolio" class="color-text">Portofolio</a>
+                <a href="#Kontak" class="color-text">Kontak</a>
             </nav>
-            <h1>Profil Saya</h1>
+            <h1 class="color-text">Profil Saya</h1>
             <img src="foto.png" alt="Foto Profil">
 
-            <table>
-                  <tr>
-        <td><b>Nama</b></td>
-        <td>Kristian Natalis</td>
-    </tr>
-    <tr>
-        <td><b>Asal</b></td>
-        <td>Kalimantan Barat</td>
-    </tr>
-    <tr>
-        <td><b>Program Studi</b></td>
-        <td>Informatika</td>
-    </tr>
-    <tr>
-        <td><b>Universitas</b></td>
-        <td>Universitas Sanata Dharma</td>
-    </tr>
-    <tr>
-        <td><b>Tanggal Lahir</b></td>
-        <td>14 Desember 2006</td>
-    </tr>
-    <tr>
-        <td><b>Tempat Lahir</b></td>
-        <td>Pontianak</td>
-    </tr>
+            <table class="color-text">
+                <tr>
+                    <td><b>Nama</b></td>
+                    <td>Kristian Natalis</td>
+                </tr>
+                <tr>
+                    <td><b>Asal</b></td>
+                    <td>Kalimantan Barat</td>
+                </tr>
+                <tr>
+                    <td><b>Program Studi</b></td>
+                    <td>Informatika</td>
+                </tr>
+                <tr>
+                    <td><b>Universitas</b></td>
+                    <td>Universitas Sanata Dharma</td>
+                </tr>
+                <tr>
+                    <td><b>Tanggal Lahir</b></td>
+                    <td>14 Desember 2006</td>
+                </tr>
+                <tr>
+                    <td><b>Tempat Lahir</b></td>
+                    <td>Pontianak</td>
+                </tr>
             </table>
         </div>
+    </header>
 
-        </header>
-
-        <main>
-            <hr>
-            <section id="Tentang">
-                <h2 class="green-text">Tentang saya</h2>
-                <article>
-                 <h3 class="green-text">Tentang saya</h3>
-                 <p>
+    <main>
+        <section id="Tentang" class="daftar-artikel">
+            <article>
+                <h3 class="color-text">Tentang saya</h3>
+                <p>
                     Saya adalah mahasiswa Program Studi Informatika di Universitas Sanata Dharma, berasal dari Pontianak dengan hobi memasak.
                     Tujuan saya adalah meraih kesuksesan melalui pengembangan diri dan ilmu yang saya pelajari selama kuliah, dengan prinsip hidup <i>seize the day</i> - maksimalkan setiap hari yang dijalani.
                 </p>
-                </article>
-              
-            </section>
-            <hr>
-            <section id="Hobi">
-                <h2 class="green-text">Hobi &amp; Minat</h2>
+            </article>
+        </section>
+
+        <section id="Hobi" class="daftar-artikel">
+            <article>
+                <h2 class="color-text">Hobi &amp; Minat</h2>
                 <ul>
                     <li>Memasak</li>
                     <li>Belajar teknologi baru</li>
                     <li>Membaca komik</li>
                     <li>Menulis puisi</li>
                 </ul>
-            </section>
-            <hr>
-            <section id="Kemampuan">
-                <h2 class="green-text">Kemampuan(skill)</h2>
+            </article>
+        </section>
+
+        <section id="Kemampuan" class="daftar-artikel">
+            <article>
+                <h2 class="color-text">Kemampuan (skill)</h2>
                 <ul>
-                    <li>Dasar pemrograman (Java & Python)</li>
+                    <li>Dasar pemrograman (Java &amp; Python)</li>
                     <li>Microsoft Office</li>
                     <li>Problem solving</li>
                 </ul>
-            </section>
-            <hr>
-            <section id="Portofolio">
-                <h2 class="green-text">Portofolio</h2>
+            </article>
+        </section>
+
+        <section id="Portofolio" class="daftar-artikel">
+            <article>
+                <h2 class="color-text">Portofolio</h2>
                 <a href="https://github.com/kristianNatalis">My Github</a>
-            </section>
-            <hr>
-            <section id="Kontak">
-                <h2 class="green-text"> Kontak & Media Sosial</h2>
-                <aside>
-                    <ul>
-                        <li>Email: kristiannatalis979@gmail.com</li>
-                        <li>Instagram: @another.kriss</li>
-                        <li>Discord: moonscream_0</li>
-                    </ul>
-                </aside>
-            </section>
-        </main>
-        <hr>
+            </article>
+        </section>
 
-        <footer>
-            <p>&copy; 2026 Kristian Natalis. Hak cipta dilindungi.</p>
+        <aside id="Kontak">
+            <h2 class="color-text">Kontak &amp; Media Sosial</h2>
+            <ul>
+                <li>Email: kristiannatalis979@gmail.com</li>
+                <li>Instagram: @another.kriss</li>
+                <li>Discord: moonscream_0</li>
+            </ul>
+        </aside>
+    </main>
 
-        </footer>
-    </body>
+    <footer>
+        <p>&copy; 2026 Kristian Natalis. Hak cipta dilindungi.</p>
+    </footer>
+</body>
 </html>
