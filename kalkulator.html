@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Kalkulator Tambah/Kurang</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+
+    <h1>Kalkulator Tambah/Kurang</h1>
+
+    <form>
+        <label for="bilangan1">Bilangan 1</label>
+        <input type="text" id="bilangan1">
+        <br>
+        <label for="bilangan2">Bilangan 2</label>
+        <input type="text" id="bilangan2">
+        <br>
+        <button type="button" onclick="tambah()">Tambah</button>
+        <button type="button" onclick="kurang()">Kurang</button>
+        <br>
+        <label for="hasil">Hasil</label>
+        <input type="text" id="hasil">
+    </form>
+
+    <script>
+        function tambah() {
+            var input1 = document.getElementById("bilangan1").value;
+            var input2 = document.getElementById("bilangan2").value;
+
+            if (isNaN(input1) || isNaN(input2) || input1 === "" || input2 === "") {
+                alert("Bilangan 1 dan Bilangan 2 harus diisi angka!");
+                return;
+            }
+
+            var bilangan1 = Number(input1);
+            var bilangan2 = Number(input2);
+            var hasil = bilangan1 + bilangan2;
+            document.getElementById("hasil").value = hasil;
+        }
+
+        function kurang() {
+            var input1 = document.getElementById("bilangan1").value;
+            var input2 = document.getElementById("bilangan2").value;
+
+            if (isNaN(input1) || isNaN(input2) || input1 === "" || input2 === "") {
+                alert("Bilangan 1 dan Bilangan 2 harus diisi angka!");
+                return;
+            }
+
+            var bilangan1 = Number(input1);
+            var bilangan2 = Number(input2);
+            var hasil = bilangan1 - bilangan2;
+            document.getElementById("hasil").value = hasil;
+        }
+    </script>
+
+</body>
+</html>
