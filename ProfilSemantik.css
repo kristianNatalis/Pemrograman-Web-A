@@ -25,17 +25,25 @@ nav {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 10px 16px;             
+    gap: 10px 16px;
     margin: 16px 0 20px 0;
 }
 
 nav a {
-    color: #8a0394;              
+    color: #8a0394;
     font-weight: bold;
-    padding: 8px 16px;          /* biar area klik lebih luas*/
-    background-color: #ffffff;   /* buat background */
+    padding: 8px 16px;
+    background-color: #ffffff;
 }
 
+button {
+    cursor: pointer;
+    padding: 6px 14px;
+    border: 1px solid #8a0394;
+    border-radius: 6px;
+    background: #ffffff;
+    font: inherit;
+}
 
 /* Elemen Header & Tabel Responsif */
 .center-content {
@@ -73,6 +81,21 @@ table {
 td {
     padding: 8px;
     border: 1px solid #5d0069;
+    text-align: left;
+}
+
+/* Kartu konten statis (Tentang, Hobi, Kemampuan, Portofolio) */
+.kartu,
+.daftar-artikel article {
+    border: 1px solid #e0d5f5;
+    border-radius: 8px;
+    padding: 16px;
+    background-color: #ffffff;
+}
+
+.kartu ul,
+aside ul {
+    padding-left: 20px;
 }
 
 /* B.4 CSS Grid pada daftar artikel */
@@ -83,11 +106,8 @@ td {
     padding: 12px 0;
 }
 
-.daftar-artikel article {
-    border: 1px solid #f4ebeb;
-    border-radius: 8px;
-    padding: 16px;
-    background-color: #ffffff;
+.daftar-artikel article button {
+    margin: 8px 8px 0 0;
 }
 
 /* B.5 Menata main & aside berdampingan */
@@ -98,10 +118,48 @@ main {
     padding: 16px;
 }
 
+main > section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-width: 0;
+}
+
+#info-tambahan {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
 aside {
     background-color: #f2f2f2;
     padding: 16px;
     border-radius: 8px;
+    align-self: flex-start;
+}
+
+/* Form komentar */
+#komentar {
+    padding: 16px;
+}
+
+#form-komentar input,
+#form-komentar textarea {
+    display: block;
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: 8px;
+    padding: 8px;
+    font: inherit;
+}
+
+#form-komentar textarea {
+    min-height: 90px;
+}
+
+#daftar-komentar {
+    margin-top: 12px;
+    padding-left: 20px;
 }
 
 /* B.6 Media query mobile-first */
@@ -132,4 +190,55 @@ footer {
     background-color: #ffffff;
     border-top: 1px solid #e0d5f5;
     margin-top: 20px;
+}
+
+/* ===== Dark mode ===== */
+body.dark-mode {
+    background-color: #1a1a1a;
+    color: #f2f2f2;
+}
+
+body.dark-mode header { background-color: #1a1a1a; }
+body.dark-mode footer { background-color: #222; border-top-color: #444; }
+body.dark-mode table { background-color: #222; }
+body.dark-mode nav a { background-color: #333; }
+
+body.dark-mode .kartu,
+body.dark-mode article,
+body.dark-mode aside { border-color: #444; background: #222; }
+
+body.dark-mode button { background: #333; color: #f2f2f2; border-color: #666; }
+
+body.dark-mode a { color: #e48cf0; }
+
+/* ===== Kelas bantu ===== */
+.tersembunyi {
+    display: none !important;
+}
+
+.artikel-hover {
+    background-color: #eef4fb;
+}
+
+/* hover di dark mode (harus setelah aturan dark-mode article) */
+body.dark-mode .artikel-hover {
+    background-color: #2d3a4d;
+}
+
+img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover; /* Memastikan foto tidak terdistorsi */
+    border-radius: 12px; /* Sudut bulat yang halus */
+    border: 2px solid rgba(238, 130, 238, 0.5); 
+    box-shadow: 0 4px 15px rgba(138, 3, 148, 0.15); /* Bayangan lembut di sekeliling foto */
+    margin: 10px 0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+
+img:hover {
+    transform: translateY(-3px); /* Foto sedikit terangkat */
+    border-color: #8a0394; /* Warna border menyala sesuai tema */
+    box-shadow: 0 8px 20px rgba(138, 3, 148, 0.3); /* Bayangan lebih jelas */
 }
