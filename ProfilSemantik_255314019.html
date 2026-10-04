@@ -9,13 +9,21 @@
 <body>
     <header>
         <div class="center-content">
+            <!-- Tombol tema & info (Modul 3) -->
+            <nav>
+                <button id="btn-tema">Mode Gelap</button>
+                <button id="btn-info">Info Tambahan</button>
+            </nav>
+
             <nav>
                 <a href="#Tentang" class="color-text">About</a>
                 <a href="#Hobi" class="color-text">Hobi</a>
                 <a href="#Kemampuan" class="color-text">Kemampuan</a>
                 <a href="#Portofolio" class="color-text">Portofolio</a>
+                <a href="#Artikel" class="color-text">Artikel</a>
                 <a href="#Kontak" class="color-text">Kontak</a>
             </nav>
+
             <h1 class="color-text">Profil Saya</h1>
             <img src="foto.png" alt="Foto Profil">
 
@@ -49,18 +57,19 @@
     </header>
 
     <main>
-        <div id="Tentang" class="daftar-artikel">
-            <article>
+        <!-- Semua konten utama dibungkus <section> supaya sejajar dengan <aside> -->
+        <section>
+            <!-- Bagian ini yang disembunyikan/ditampilkan tombol "Info Tambahan" -->
+            <div id="info-tambahan">
+            <article id="Tentang" class="kartu">
                 <h2 class="color-text">Tentang saya</h2>
                 <p>
                     Saya adalah mahasiswa Program Studi Informatika di Universitas Sanata Dharma, berasal dari Pontianak dengan hobi memasak.
                     Tujuan saya adalah meraih kesuksesan melalui pengembangan diri dan ilmu yang saya pelajari selama kuliah, dengan prinsip hidup <i>seize the day</i> - maksimalkan setiap hari yang dijalani.
                 </p>
             </article>
-        </div>
 
-        <div id="Hobi" class="daftar-artikel">
-            <article>
+            <article id="Hobi" class="kartu">
                 <h2 class="color-text">Hobi &amp; Minat</h2>
                 <ul>
                     <li>Memasak</li>
@@ -69,10 +78,8 @@
                     <li>Menulis puisi</li>
                 </ul>
             </article>
-        </div>
 
-        <div id="Kemampuan" class="daftar-artikel">
-            <article>
+            <article id="Kemampuan" class="kartu">
                 <h2 class="color-text">Kemampuan (skill)</h2>
                 <ul>
                     <li>Dasar pemrograman (Java &amp; Python)</li>
@@ -80,14 +87,19 @@
                     <li>Problem solving</li>
                 </ul>
             </article>
-        </div>
 
-        <div id="Portofolio" class="daftar-artikel">
-            <article>
+            <article id="Portofolio" class="kartu">
                 <h2 class="color-text">Portofolio</h2>
                 <a href="https://github.com/kristianNatalis">My Github</a>
             </article>
-        </div>
+            </div>
+
+            <!-- Artikel dirender oleh script.js ke dalam .daftar-artikel -->
+            <div id="Artikel">
+                <h2 class="color-text">Artikel Terbaru</h2>
+                <div class="daftar-artikel"></div>
+            </div>
+        </section>
 
         <aside id="Kontak">
             <h2 class="color-text">Kontak &amp; Media Sosial</h2>
@@ -99,8 +111,19 @@
         </aside>
     </main>
 
+    <section id="komentar">
+        <h2 class="color-text">Tinggalkan Komentar</h2>
+        <form id="form-komentar">
+            <input type="text" id="input-nama" placeholder="Nama Anda" required>
+            <textarea id="input-pesan" placeholder="Tulis komentar..." required></textarea>
+            <button type="submit">Kirim</button>
+        </form>
+        <ul id="daftar-komentar"></ul>
+    </section>
+
     <footer>
         <p>&copy; 2026 Kristian Natalis. Hak cipta dilindungi.</p>
     </footer>
+    <script src="script.js"></script>
 </body>
 </html>
