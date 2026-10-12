@@ -167,7 +167,7 @@ form.addEventListener("submit", (e) => {
   fields.forEach(validasiField);
   const pertamaSalah = fields.find((f) => !f.checkValidity());
   if (pertamaSalah) {
-    pertamaSalah.focus();
+    pertamaSalah.reportValidity(); // tampilkan balon error bawaan browser + fokus ke field yang salah
     return;
   }
 
