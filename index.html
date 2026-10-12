@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulir Pendaftaran Mahasiswa Baru</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container">
+    <header>
+      <div>
+        <h1>Formulir Pendaftaran Mahasiswa Baru</h1>
+        <p class="sub">Isi seluruh data dengan benar. Kolom bertanda <span class="wajib">*</span> wajib diisi.</p>
+      </div>
+      <nav>
+        <button type="button" id="btn-tema">Mode Gelap</button>
+        <button type="button" id="btn-info">Info Tambahan</button>
+      </nav>
+    </header>
+
+    <aside>
+      <h2>Info Tambahan</h2>
+      <p>Syarat pendaftaran: usia minimal 15 tahun, nilai rapor antara 60 dan 100, dan password minimal 8 karakter (huruf besar, huruf kecil, dan angka).</p>
+      <p>Klik tombol "Info Tambahan" untuk menampilkan atau menyembunyikan kotak ini.</p>
+    </aside>
+
+
+    <form id="form-pmb" novalidate>
+
+
+      <fieldset>
+        <legend>1. Data Pribadi</legend>
+
+        <div class="field">
+          <label for="nama">Nama Lengkap <span class="wajib">*</span></label>
+          <input type="text" id="nama" placeholder="Sesuai ijazah" required minlength="3" maxlength="50"
+                 pattern="[A-Za-z .']+" title="Nama hanya boleh berisi huruf, spasi, titik, dan apostrof" data-validasi>
+          <span class="pesan-error" id="error-nama"></span>
+        </div>
+
+        <div class="field">
+          <label for="email">Email <span class="wajib">*</span></label>
+          <input type="email" id="email" placeholder="nama@email.com" required
+                 data-format="Format email tidak valid, contoh: nama@email.com" data-validasi>
+          <span class="pesan-error" id="error-email"></span>
+        </div>
+
+        <div class="field">
+          <label for="hp">No. HP / WhatsApp <span class="wajib">*</span></label>
+          <input type="tel" id="hp" placeholder="08123456789" required pattern="08[0-9]{8,11}"
+                 title="Nomor HP harus diawali 08 dan terdiri dari 10–13 digit angka" data-validasi>
+          <span class="pesan-error" id="error-hp"></span>
+        </div>
+
+        <div class="field">
+          <label for="tgl">Tanggal Lahir <span class="wajib">*</span></label>
+          <input type="date" id="tgl" required data-validasi>
+          <span class="pesan-error" id="error-tgl"></span>
+        </div>
+
+        <div class="field">
+          <label>Jenis Kelamin <span class="wajib">*</span></label>
+          <div class="radio-group">
+            <label class="inline"><input type="radio" name="jk" value="Laki-laki" required data-validasi
+                   data-kosong="Pilih jenis kelamin"> Laki-laki</label>
+            <label class="inline"><input type="radio" name="jk" value="Perempuan"> Perempuan</label>
+          </div>
+          <span class="pesan-error" id="error-jk"></span>
+        </div>
+      </fieldset>
+
+
+      <fieldset>
+        <legend>2. Data Akademik</legend>
+
+        <div class="field">
+          <label for="sekolah">Asal Sekolah <span class="wajib">*</span></label>
+          <input type="text" id="sekolah" placeholder="Mis. SMA Negeri 1 Yogyakarta" required minlength="3" maxlength="60" data-validasi>
+          <span class="pesan-error" id="error-sekolah"></span>
+        </div>
+
+        <div class="field">
+          <label for="rapor">Rata-rata Nilai Rapor <span class="wajib">*</span></label>
+          <input type="number" id="rapor" placeholder="60 – 100" required min="60" max="100" step="0.01" data-validasi>
+          <span class="pesan-error" id="error-rapor"></span>
+        </div>
+
+        <div class="field">
+          <label for="jalur">Jalur Pendaftaran <span class="wajib">*</span></label>
+          <select id="jalur" required data-kosong="Pilih jalur pendaftaran" data-validasi>
+            <option value="">-- Pilih jalur --</option>
+            <option>Reguler</option>
+            <option>Prestasi</option>
+            <option>Beasiswa</option>
+          </select>
+          <span class="pesan-error" id="error-jalur"></span>
+        </div>
+
+        <div class="field">
+          <label for="prodi">Program Studi Pilihan <span class="wajib">*</span></label>
+          <select id="prodi" required data-kosong="Pilih program studi" data-validasi>
+            <option value="">-- Pilih program studi --</option>
+            <option>Informatika</option>
+            <option>Sistem Informasi</option>
+            <option>Teknik Elektro</option>
+            <option>Matematika</option>
+          </select>
+          <span class="pesan-error" id="error-prodi"></span>
+        </div>
+      </fieldset>
+
+
+      <fieldset>
+        <legend>3. Akun Pendaftaran</legend>
+
+        <div class="field">
+          <label for="username">Username <span class="wajib">*</span></label>
+          <input type="text" id="username" placeholder="huruf kecil, angka, underscore" required
+                 pattern="[a-z0-9_]{4,15}" title="Username 4–15 karakter: hanya huruf kecil, angka, atau underscore" data-validasi>
+          <small class="hint">4–15 karakter: huruf kecil, angka, atau underscore.</small>
+          <span class="pesan-error" id="error-username"></span>
+        </div>
+
+        <div class="field">
+          <label for="password">Password <span class="wajib">*</span></label>
+          <input type="password" id="password" required minlength="8" data-validasi>
+          <div class="kekuatan"><div id="kekuatan-bar"></div></div>
+          <small class="hint">Minimal 8 karakter, kombinasi huruf besar, huruf kecil, dan angka.</small>
+          <span class="pesan-error" id="error-password"></span>
+        </div>
+
+        <div class="field">
+          <label for="konfirmasi">Konfirmasi Password <span class="wajib">*</span></label>
+          <input type="password" id="konfirmasi" required data-validasi>
+          <span class="pesan-error" id="error-konfirmasi"></span>
+        </div>
+      </fieldset>
+
+
+      <div class="field setuju">
+        <div class="setuju-baris">
+          <label class="inline">
+            <input type="checkbox" id="setuju" required data-validasi
+                   data-kosong="Anda harus menyetujui pernyataan ini">
+            Saya menyatakan data di atas benar dan bersedia mengikuti seluruh ketentuan PMB.
+          </label>
+          <span class="wajib">*</span>
+        </div>
+        <span class="pesan-error" id="error-setuju"></span>
+      </div>
+
+      <div id="sukses" class="sukses" hidden></div>
+
+      <button type="submit" class="btn-kirim">Kirim Pendaftaran</button>
+      <button type="reset" class="btn-reset">Reset</button>
+    </form>
+
+    <section class="pendaftar">
+      <h2>Daftar Pendaftar</h2>
+      <p id="kosong" class="kosong">Belum ada pendaftar.</p>
+      <div class="daftar-pendaftar"></div>
+    </section>
+
+   
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

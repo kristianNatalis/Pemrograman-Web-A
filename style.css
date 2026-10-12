@@ -1,0 +1,330 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
+  margin: 0;
+  padding: 20px;
+  color: #222;
+  background: #f4f4f4;
+}
+
+.container {
+  max-width: 640px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 24px;
+  border: 1px solid #ccc;
+}
+
+header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 24px;
+  margin: 0 0 8px;
+}
+
+.sub {
+  color: #555;
+  margin: 0;
+  font-size: 14px;
+}
+
+nav {
+  display: flex;
+  gap: 8px;
+}
+
+nav button {
+  width: auto;
+  margin-top: 0;
+  padding: 6px 12px;
+  border: 1px solid #888;
+  background: #f2f2f2;
+}
+
+.wajib {
+  color: red;
+}
+
+aside {
+  border: 1px dashed #aaa;
+  background: #fafafa;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+aside h2 {
+  font-size: 16px;
+  margin: 0 0 6px;
+}
+
+aside p {
+  margin: 0 0 6px;
+}
+
+.tersembunyi {
+  display: none;
+}
+
+fieldset {
+  border: 1px solid #ccc;
+  padding: 16px;
+  margin: 0 0 16px;
+}
+
+legend {
+  font-weight: bold;
+  padding: 0 6px;
+}
+
+.field {
+  margin-bottom: 14px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+label.inline {
+  display: inline-block;
+  font-weight: normal;
+  margin-right: 16px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="date"],
+input[type="number"],
+input[type="password"],
+select {
+  width: 100%;
+  padding: 8px;
+  font: inherit;
+  border: 1px solid #999;
+}
+
+input:focus,
+select:focus {
+  outline: 2px solid #4a90d9;
+}
+
+.benar {
+  border-color: green !important;
+}
+
+.salah {
+  border-color: red !important;
+}
+
+.pesan-error {
+  display: block;
+  color: red;
+  font-size: 13px;
+  min-height: 18px;
+}
+
+.hint {
+  display: block;
+  color: #666;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.kekuatan {
+  margin-top: 6px;
+  height: 6px;
+  background: #ddd;
+}
+
+#kekuatan-bar {
+  height: 100%;
+  width: 0;
+}
+
+#kekuatan-bar.lemah {
+  background: red;
+}
+
+#kekuatan-bar.sedang {
+  background: orange;
+}
+
+#kekuatan-bar.kuat {
+  background: green;
+}
+
+.setuju-baris {
+  display: flex;
+  gap: 6px;
+}
+
+.setuju-baris label {
+  font-weight: normal;
+  margin: 0;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  font: inherit;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.btn-kirim {
+  background: #2a6fdb;
+  color: #fff;
+  border: none;
+}
+
+.btn-kirim:hover {
+  background: #1f58b0;
+}
+
+.btn-reset {
+  background: #fff;
+  border: 1px solid #999;
+}
+
+.sukses {
+  background: #e6f4ea;
+  border: 1px solid #7bc58d;
+  color: #1e5c2e;
+  padding: 10px;
+  margin-bottom: 8px;
+}
+
+/* daftar pendaftar */
+.pendaftar {
+  margin-top: 28px;
+  border-top: 1px solid #ccc;
+  padding-top: 16px;
+}
+
+.pendaftar h2 {
+  font-size: 18px;
+  margin: 0 0 10px;
+}
+
+.kosong {
+  color: #666;
+  font-size: 14px;
+  margin: 0;
+}
+
+.daftar-pendaftar {
+  display: grid;
+  gap: 10px;
+}
+
+.daftar-pendaftar article {
+  border: 1px solid #ddd;
+  padding: 10px 12px;
+}
+
+.daftar-pendaftar h3 {
+  font-size: 16px;
+  margin: 0;
+}
+
+.daftar-pendaftar time {
+  color: #666;
+  font-size: 12px;
+}
+
+.daftar-pendaftar p {
+  margin: 4px 0 8px;
+  font-size: 14px;
+}
+
+.btn-hapus {
+  width: auto;
+  margin-top: 0;
+  padding: 4px 10px;
+  font-size: 13px;
+  border: 1px solid #888;
+  background: #f2f2f2;
+}
+
+.catatan {
+  text-align: center;
+  color: #666;
+  font-size: 12px;
+  margin-top: 16px;
+}
+
+/* mode gelap */
+body.dark-mode {
+  background: #1a1a1a;
+  color: #f2f2f2;
+  color-scheme: dark;
+}
+
+body.dark-mode .container {
+  background: #222;
+  border-color: #444;
+}
+
+body.dark-mode .sub,
+body.dark-mode .hint,
+body.dark-mode .kosong,
+body.dark-mode .catatan,
+body.dark-mode .daftar-pendaftar time {
+  color: #aaa;
+}
+
+body.dark-mode fieldset,
+body.dark-mode .pendaftar,
+body.dark-mode .daftar-pendaftar article {
+  border-color: #444;
+}
+
+body.dark-mode aside {
+  background: #2a2a2a;
+  border-color: #666;
+}
+
+body.dark-mode input[type="text"],
+body.dark-mode input[type="email"],
+body.dark-mode input[type="tel"],
+body.dark-mode input[type="date"],
+body.dark-mode input[type="number"],
+body.dark-mode input[type="password"],
+body.dark-mode select {
+  background: #2c2c2c;
+  color: #f2f2f2;
+  border-color: #666;
+}
+
+body.dark-mode .kekuatan {
+  background: #444;
+}
+
+body.dark-mode nav button,
+body.dark-mode .btn-reset,
+body.dark-mode .btn-hapus {
+  background: #333;
+  color: #f2f2f2;
+  border-color: #666;
+}
+
+body.dark-mode .sukses {
+  background: #1f3a29;
+  border-color: #3f7a55;
+  color: #b7e4c7;
+}
