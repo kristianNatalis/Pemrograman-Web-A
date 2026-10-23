@@ -1,4 +1,4 @@
-/* B.2 Reset dasar dan box-sizing */
+/* Reset dasar dan box-sizing */
 * {
     margin: 0;
     padding: 0;
@@ -11,7 +11,7 @@ body {
     background-color: #f3effb;
 }
 
-/* B.3 Flexbox pada header dan nav */
+/*  Flexbox pada header dan nav */
 header {
     display: flex;
     justify-content: center;
@@ -84,7 +84,7 @@ td {
     text-align: left;
 }
 
-/* Kartu konten statis (Tentang, Hobi, Kemampuan, Portofolio) */
+/* Kartu konten (Tentang, Hobi, Kemampuan, Portofolio) */
 .kartu,
 .daftar-artikel article {
     border: 1px solid #e0d5f5;
@@ -98,7 +98,7 @@ aside ul {
     padding-left: 20px;
 }
 
-/* B.4 CSS Grid pada daftar artikel */
+/*  CSS Grid pada daftar artikel */
 .daftar-artikel {
     display: grid;
     grid-template-columns: 1fr;
@@ -110,7 +110,7 @@ aside ul {
     margin: 8px 8px 0 0;
 }
 
-/* B.5 Menata main & aside berdampingan */
+/*  Menata main & aside berdampingan */
 main {
     display: flex;
     flex-direction: column;
@@ -162,7 +162,7 @@ aside {
     padding-left: 20px;
 }
 
-/* B.6 Media query mobile-first */
+/*  Media query mobile-first */
 @media (min-width: 768px) {
     .daftar-artikel {
         grid-template-columns: repeat(2, 1fr);
