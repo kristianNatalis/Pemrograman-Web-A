@@ -242,3 +242,17 @@ img:hover {
     border-color: #8a0394; /* Warna border menyala sesuai tema */
     box-shadow: 0 8px 20px rgba(138, 3, 148, 0.3); /* Bayangan lebih jelas */
 }
+
+.spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 3px solid #ccc;
+  border-top-color: #4a90d9;
+  border-radius: 50%;
+  vertical-align: middle;
+  animation: putar 0.8s linear infinite;
+}
+@keyframes putar {
+  to { transform: rotate(360deg); }
+}
