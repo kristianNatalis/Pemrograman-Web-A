@@ -1,3 +1,5 @@
+const BASE = "https://jsonplaceholder.typicode.com";
+
 const judulSitus = document.querySelector("header h1");
 
 if (judulSitus) {
@@ -53,23 +55,12 @@ if (tombolInfo && kotakInfo) {
   });
 }
 
-const daftarArtikel = [
-  {
-    judul: "Fun Fact: Lahir di Pontianak",
-    tanggal: "2026-08-26",
-    isi: "Saya lahir di Pontianak, kota yang dilewati garis khatulistiwa."
-  },
-  {
-    judul: "Fun Fact: Suka Memasak",
-    tanggal: "2026-08-27",
-    isi: "Selain ngoding, dapur adalah tempat saya bereksperimen dan mencoba resep baru."
-  },
-  {
-    judul: "Fun Fact: Puisi dan Komik",
-    tanggal: "2026-08-28",
-    isi: "Saya suka menulis puisi dan membaca komik, dengan prinsip hidup seize the day."
-  },
-];
+async function ujiFetch() {
+  const response = await fetch(BASE + "/posts?_limit=3");
+  const data = await response.json();
+  console.log(data);
+}
+ujiFetch();
 
 function simpanLike(judulArtikel, jumlah) {
   const semuaLike = JSON.parse(localStorage.getItem("semuaLike")) || {};
@@ -79,43 +70,60 @@ function simpanLike(judulArtikel, jumlah) {
 
 const containerArtikel = document.querySelector(".daftar-artikel");
 
-if (containerArtikel) {
-  const semuaLike = JSON.parse(localStorage.getItem("semuaLike")) || {};
+async function muatArtikelDariAPI() {
+  const loading = document.querySelector("#loading");
+  if (loading) loading.style.display = "block";
 
-  daftarArtikel.forEach((data) => {
-    const article = document.createElement("article");
+  try {
+    const response = await fetch(BASE + "/posts?_limit=5");
+    if (!response.ok) {
+      throw new Error("Status: " + response.status);
+    }
+    const daftarPost = await response.json();
 
-    const judul = document.createElement("h3");
-    judul.textContent = data.judul;
+    const semuaLike = JSON.parse(localStorage.getItem("semuaLike")) || {};
 
-    const waktu = document.createElement("time");
-    waktu.textContent = data.tanggal;
+    daftarPost.forEach((post) => {
+      const article = document.createElement("article");
 
-    const isi = document.createElement("p");
-    isi.textContent = data.isi;
+      const judul = document.createElement("h3");
+      judul.textContent = post.title;
 
-    const tombolLike = document.createElement("button");
-    let jumlahLike = semuaLike[data.judul] || 0;
-    tombolLike.textContent = `Like (${jumlahLike})`;
-    tombolLike.classList.add("btn-like");
-    tombolLike.addEventListener("click", () => {
-      jumlahLike++;
+      const isi = document.createElement("p");
+      isi.textContent = post.body;
+
+      const tombolLike = document.createElement("button");
+      let jumlahLike = semuaLike[post.title] || 0;
       tombolLike.textContent = `Like (${jumlahLike})`;
-      simpanLike(data.judul, jumlahLike);
+      tombolLike.classList.add("btn-like");
+      tombolLike.addEventListener("click", () => {
+        jumlahLike++;
+        tombolLike.textContent = `Like (${jumlahLike})`;
+        simpanLike(post.title, jumlahLike);
+      });
+
+      const tombolHapus = document.createElement("button");
+      tombolHapus.textContent = "Hapus";
+      tombolHapus.classList.add("btn-hapus");
+
+      article.appendChild(judul);
+      article.appendChild(isi);
+      article.appendChild(tombolLike);
+      article.appendChild(tombolHapus);
+
+      containerArtikel.appendChild(article);
     });
+  } catch (error) {
+    containerArtikel.innerHTML =
+      "<p>Gagal memuat artikel, silakan coba lagi nanti.</p>";
+    console.error("Gagal mengambil data:", error);
+  } finally {
+    if (loading) loading.style.display = "none";
+  }
+}
 
-    const tombolHapus = document.createElement("button");
-    tombolHapus.textContent = "Hapus";
-    tombolHapus.classList.add("btn-hapus");
-
-    article.appendChild(judul);
-    article.appendChild(waktu);
-    article.appendChild(isi);
-    article.appendChild(tombolLike);
-    article.appendChild(tombolHapus);
-
-    containerArtikel.appendChild(article);
-  });
+if (containerArtikel) {
+  muatArtikelDariAPI();
 
   containerArtikel.addEventListener("click", (e) => {
     if (e.target.classList.contains("btn-hapus")) {
@@ -133,6 +141,23 @@ if (containerArtikel) {
     if (article) article.classList.remove("artikel-hover");
   });
 }
+
+async function muatProfilPenulis() {
+  const namaEl = document.querySelector("#nama-penulis");
+  const emailEl = document.querySelector("#email-penulis");
+  if (!namaEl || !emailEl) return;
+
+  try {
+    const response = await fetch(BASE + "/users/1");
+    if (!response.ok) throw new Error("Status: " + response.status);
+    const user = await response.json();
+    namaEl.textContent = user.name;
+    emailEl.textContent = user.email;
+  } catch (error) {
+    console.error("Gagal memuat profil penulis:", error);
+  }
+}
+muatProfilPenulis();
 
 const formKomentar = document.querySelector("#form-komentar");
 const daftarKomentar = document.querySelector("#daftar-komentar");
@@ -200,10 +225,21 @@ if (formKomentar && daftarKomentar) {
     tombolHapusSemua.classList.remove("tersembunyi");
   }
 
-  function muatKomentar() {
-    ambilKomentar().forEach(renderKomentar);
+  async function muatKomentarAwal() {
+    try {
+      const response = await fetch(BASE + "/posts/1/comments?_limit=3");
+      if (!response.ok) throw new Error("Status: " + response.status);
+      const daftar = await response.json();
+      daftar.forEach((k) => {
+        renderKomentar({ id: "api-" + k.id, nama: k.name, pesan: k.body });
+      });
+    } catch (error) {
+      console.error("Gagal memuat komentar awal:", error);
+    } finally {
+      ambilKomentar().forEach(renderKomentar);
+    }
   }
-  muatKomentar();
+  muatKomentarAwal();
 
   inputNama.value = sessionStorage.getItem("draftNama") || "";
   inputPesan.value = sessionStorage.getItem("draftPesan") || "";
