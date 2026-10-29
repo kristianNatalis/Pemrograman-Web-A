@@ -57,11 +57,17 @@ if (tombolInfo && kotakInfo) {
 
 async function ujiFetch() {
   const response = await fetch(BASE + "/posts?_limit=3");
-  const data = await response.json();
+  
+  let data;
+  try {
+    data = await response.json();
+  } catch (error) {
+    console.error("Gagal parsing JSON:", error);
+    return;
+  }
+  
   console.log(data);
 }
-ujiFetch();
-
 function simpanLike(judulArtikel, jumlah) {
   const semuaLike = JSON.parse(localStorage.getItem("semuaLike")) || {};
   semuaLike[judulArtikel] = jumlah;
