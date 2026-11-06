@@ -1,5 +1,31 @@
 const BASE = "https://jsonplaceholder.typicode.com";
 
+/* B.6 — Pesan berbeda berdasarkan status code */
+function pesanDariStatus(status) {
+  if (status === 404) return "Data tidak ditemukan di server.";
+  if (status === 400) return "Data yang dikirim tidak valid.";
+  if (status >= 500) return "Server sedang bermasalah, coba lagi nanti.";
+  return "Terjadi kesalahan tidak terduga.";
+}
+
+/* Lempar error yang membawa status code, dipakai POST, PATCH, dan DELETE */
+function cekResponse(response) {
+  if (!response.ok) {
+    const error = new Error("Status: " + response.status);
+    error.status = response.status;
+    throw error;
+  }
+}
+
+/* Tampilkan pesan error sesuai status code (B.6) */
+function tampilkanError(error) {
+  if (error.status) {
+    alert(pesanDariStatus(error.status));
+  } else {
+    alert("Terjadi kesalahan jaringan, periksa koneksi Anda.");
+  }
+}
+
 const judulSitus = document.querySelector("header h1");
 
 if (judulSitus) {
@@ -74,6 +100,22 @@ function simpanLike(judulArtikel, jumlah) {
   localStorage.setItem("semuaLike", JSON.stringify(semuaLike));
 }
 
+/* B.4 — PATCH jumlah like ke server (endpoint /posts/id sebagai simulasi) */
+async function perbaruiLikeKeServer(postId, jumlahLike) {
+  try {
+    const response = await fetch(`${BASE}/posts/${postId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ likes: jumlahLike }),
+    });
+    cekResponse(response);
+    console.log("Like berhasil diperbarui di server");
+  } catch (error) {
+    console.error("Gagal memperbarui like:", error);
+    tampilkanError(error);
+  }
+}
+
 const containerArtikel = document.querySelector(".daftar-artikel");
 
 async function muatArtikelDariAPI() {
@@ -106,6 +148,7 @@ async function muatArtikelDariAPI() {
         jumlahLike++;
         tombolLike.textContent = `Like (${jumlahLike})`;
         simpanLike(post.title, jumlahLike);
+        perbaruiLikeKeServer(post.id, jumlahLike);
       });
 
       const tombolHapus = document.createElement("button");
@@ -173,22 +216,58 @@ function ambilKomentar() {
   return JSON.parse(localStorage.getItem("komentar")) || [];
 }
 
-function simpanKomentar(nama, pesan) {
+function simpanKomentar(k) {
   const daftar = ambilKomentar();
-  const id = Date.now();
-  daftar.push({ id, nama, pesan });
+  daftar.push(k);
   localStorage.setItem("komentar", JSON.stringify(daftar));
-  return id;
 }
 
-function hapusKomentarTersimpan(id) {
-  const daftar = ambilKomentar().filter((k) => k.id !== id);
+function ubahKomentarTersimpan(kunci, nama, pesan) {
+  const daftar = ambilKomentar().map((k) =>
+    String(k.kunci) === String(kunci) ? { ...k, nama, pesan } : k
+  );
   localStorage.setItem("komentar", JSON.stringify(daftar));
+}
+
+function hapusKomentarTersimpan(kunci) {
+  const daftar = ambilKomentar().filter((k) => String(k.kunci) !== String(kunci));
+  localStorage.setItem("komentar", JSON.stringify(daftar));
+}
+
+/* B.2 — kirim komentar baru dengan POST */
+async function kirimKomentarKeServer(nama, pesan) {
+  const response = await fetch(BASE + "/comments", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name: nama, body: pesan, postId: 1 }),
+  });
+  cekResponse(response);
+  return await response.json(); // server membalas data + id baru
+}
+
+/* Tugas mandiri — edit komentar dengan PATCH */
+async function perbaruiKomentarKeServer(id, nama, pesan) {
+  const response = await fetch(`${BASE}/comments/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name: nama, body: pesan }),
+  });
+  cekResponse(response);
+  return await response.json();
+}
+
+/* B.5 — hapus komentar dengan DELETE */
+async function hapusKomentarDiServer(id) {
+  const response = await fetch(`${BASE}/comments/${id}`, { method: "DELETE" });
+  cekResponse(response);
 }
 
 if (formKomentar && daftarKomentar) {
   const inputNama = document.querySelector("#input-nama");
   const inputPesan = document.querySelector("#input-pesan");
+  const tombolKirim = formKomentar.querySelector('button[type="submit"]');
+
+  let komentarDiedit = null; // <li> yang sedang diedit (null = mode tambah)
 
   const pesanError = document.createElement("p");
   pesanError.style.color = "#d9534f";
@@ -203,30 +282,36 @@ if (formKomentar && daftarKomentar) {
   tombolHapusSemua.classList.add("tersembunyi");
   kontainerKomentar.appendChild(tombolHapusSemua);
 
+  function buatTombolKecil(teks, kelas) {
+    const tombol = document.createElement("button");
+    tombol.textContent = teks;
+    tombol.classList.add(kelas);
+    tombol.style.marginLeft = "8px";
+    tombol.style.padding = "2px 8px";
+    tombol.style.fontSize = "12px";
+    return tombol;
+  }
+
+  /* B.3 — dataset.id menyimpan id dari server */
   function renderKomentar(k) {
     const itemKomentar = document.createElement("li");
     itemKomentar.style.marginBottom = "8px";
+    itemKomentar.dataset.id = k.id;
+    if (k.kunci !== undefined) itemKomentar.dataset.kunci = k.kunci;
 
     const strong = document.createElement("strong");
+    strong.classList.add("nama-komentar");
     strong.textContent = k.nama;
+
+    const isi = document.createElement("span");
+    isi.classList.add("isi-komentar");
+    isi.textContent = `: ${k.pesan} `;
+
     itemKomentar.appendChild(strong);
-    itemKomentar.appendChild(document.createTextNode(`: ${k.pesan} `));
+    itemKomentar.appendChild(isi);
+    itemKomentar.appendChild(buatTombolKecil("Edit", "btn-edit-komen"));
+    itemKomentar.appendChild(buatTombolKecil("Hapus", "btn-hapus-komen"));
 
-    const btnHapusKomen = document.createElement("button");
-    btnHapusKomen.textContent = "Hapus";
-    btnHapusKomen.style.marginLeft = "8px";
-    btnHapusKomen.style.padding = "2px 8px";
-    btnHapusKomen.style.fontSize = "12px";
-
-    btnHapusKomen.addEventListener("click", () => {
-      itemKomentar.remove();
-      hapusKomentarTersimpan(k.id);
-      if (daftarKomentar.children.length === 0) {
-        tombolHapusSemua.classList.add("tersembunyi");
-      }
-    });
-
-    itemKomentar.appendChild(btnHapusKomen);
     daftarKomentar.appendChild(itemKomentar);
     tombolHapusSemua.classList.remove("tersembunyi");
   }
@@ -237,12 +322,12 @@ if (formKomentar && daftarKomentar) {
       if (!response.ok) throw new Error("Status: " + response.status);
       const daftar = await response.json();
       daftar.forEach((k) => {
-        renderKomentar({ id: "api-" + k.id, nama: k.name, pesan: k.body });
+        renderKomentar({ id: k.id, nama: k.name, pesan: k.body });
       });
     } catch (error) {
       console.error("Gagal memuat komentar awal:", error);
     } finally {
-      ambilKomentar().forEach(renderKomentar);
+      ambilKomentar().forEach((k) => renderKomentar({ ...k, kunci: k.kunci ?? k.id }));
     }
   }
   muatKomentarAwal();
@@ -256,7 +341,7 @@ if (formKomentar && daftarKomentar) {
     sessionStorage.setItem("draftPesan", inputPesan.value);
   });
 
-  formKomentar.addEventListener("submit", (e) => {
+  formKomentar.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const nama = inputNama.value.trim();
@@ -270,18 +355,87 @@ if (formKomentar && daftarKomentar) {
 
     pesanError.classList.add("tersembunyi");
 
-    const id = simpanKomentar(nama, pesan);
-    renderKomentar({ id, nama, pesan });
+    // indikator loading: tombol dinonaktifkan agar tidak terklik dua kali
+    tombolKirim.disabled = true;
+    tombolKirim.textContent = "Mengirim...";
 
-    formKomentar.reset();
-    sessionStorage.removeItem("draftNama");
-    sessionStorage.removeItem("draftPesan");
+    try {
+      if (komentarDiedit) {
+        // PATCH komentar yang diedit
+        await perbaruiKomentarKeServer(komentarDiedit.dataset.id, nama, pesan);
+        komentarDiedit.querySelector(".nama-komentar").textContent = nama;
+        komentarDiedit.querySelector(".isi-komentar").textContent = `: ${pesan} `;
+        ubahKomentarTersimpan(komentarDiedit.dataset.kunci, nama, pesan);
+        komentarDiedit = null;
+      } else {
+        // POST komentar baru, tampilkan respons server (B.3)
+        const hasil = await kirimKomentarKeServer(nama, pesan);
+        const k = { id: hasil.id, kunci: Date.now(), nama: hasil.name, pesan: hasil.body };
+        renderKomentar(k);
+        simpanKomentar(k);
+        console.log("Komentar tersimpan di server, id:", hasil.id);
+      }
+
+      formKomentar.reset();
+      sessionStorage.removeItem("draftNama");
+      sessionStorage.removeItem("draftPesan");
+    } catch (error) {
+      tampilkanError(error);
+      console.error(error);
+    } finally {
+      tombolKirim.disabled = false;
+      tombolKirim.textContent = komentarDiedit ? "Simpan Perubahan" : "Kirim";
+    }
+  });
+
+  /* Edit & DELETE lewat event delegation */
+  daftarKomentar.addEventListener("click", async (e) => {
+    const li = e.target.closest("li");
+    if (!li) return;
+
+    // Edit: tampilkan kembali isi komentar pada form
+    if (e.target.classList.contains("btn-edit-komen")) {
+      komentarDiedit = li;
+      inputNama.value = li.querySelector(".nama-komentar").textContent;
+      inputPesan.value = li.querySelector(".isi-komentar").textContent
+        .replace(/^: /, "").trim();
+      tombolKirim.textContent = "Simpan Perubahan";
+      inputNama.focus();
+      return;
+    }
+
+    // Hapus
+    if (e.target.classList.contains("btn-hapus-komen")) {
+      const tombol = e.target;
+      tombol.disabled = true;
+      tombol.textContent = "Menghapus...";
+      try {
+        await hapusKomentarDiServer(li.dataset.id);
+        if (komentarDiedit === li) {
+          komentarDiedit = null;
+          formKomentar.reset();
+          tombolKirim.textContent = "Kirim";
+        }
+        li.remove();
+        hapusKomentarTersimpan(li.dataset.kunci);
+        if (daftarKomentar.children.length === 0) {
+          tombolHapusSemua.classList.add("tersembunyi");
+        }
+      } catch (error) {
+        tampilkanError(error);
+        console.error(error);
+        tombol.disabled = false;
+        tombol.textContent = "Hapus";
+      }
+    }
   });
 
   tombolHapusSemua.addEventListener("click", () => {
     daftarKomentar.innerHTML = "";
     localStorage.removeItem("komentar");
     tombolHapusSemua.classList.add("tersembunyi");
+    komentarDiedit = null;
+    tombolKirim.textContent = "Kirim";
   });
 }
 
