@@ -84,6 +84,31 @@ td {
     text-align: left;
 }
 
+kartu-artikel {
+    display: block;
+}
+
+kartu-komentar {
+    display: block;
+    margin-bottom: 8px;
+}
+
+kartu-komentar button {
+    margin-left: 8px;
+    padding: 2px 8px;
+    font-size: 12px;
+}
+
+salam-pengguna {
+    display: block;
+    font-style: italic;
+    color: #8a0394;
+}
+
+body.dark-mode salam-pengguna {
+    color: #e48cf0;
+}
+
 /* Kartu konten (Tentang, Hobi, Kemampuan, Portofolio) */
 .kartu,
 .daftar-artikel article {
