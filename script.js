@@ -170,7 +170,7 @@ async function kirimKomentarKeServer(nama, pesan) {
   return await response.json(); // server membalas data + id baru
 }
 
-/* Tugas mandiri — edit komentar dengan PATCH */
+/*  edit komentar dengan PATCH */
 async function perbaruiKomentarKeServer(id, nama, pesan) {
   const response = await fetch(`${BASE}/comments/${id}`, {
     method: "PATCH",
@@ -257,7 +257,7 @@ if (formKomentar && daftarKomentar) {
 
     pesanError.classList.add("tersembunyi");
 
-    // indikator loading: tombol dinonaktifkan agar tidak terklik dua kali
+    // indikator loading tombol dinonaktifkan agar tidak terklik dua kali
     tombolKirim.disabled = true;
     tombolKirim.textContent = "Mengirim...";
 
@@ -270,7 +270,7 @@ if (formKomentar && daftarKomentar) {
         ubahKomentarTersimpan(komentarDiedit.dataset.kunci, nama, pesan);
         komentarDiedit = null;
       } else {
-        // POST komentar baru, tampilkan respons server (B.3)
+        // POST komentar baru, tampilkan respons server 
         const hasil = await kirimKomentarKeServer(nama, pesan);
         const k = { id: hasil.id, kunci: Date.now(), nama: hasil.name, pesan: hasil.body };
         renderKomentar(k);
