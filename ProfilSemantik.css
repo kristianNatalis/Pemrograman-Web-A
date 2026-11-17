@@ -84,21 +84,6 @@ td {
     text-align: left;
 }
 
-kartu-artikel {
-    display: block;
-}
-
-kartu-komentar {
-    display: block;
-    margin-bottom: 8px;
-}
-
-kartu-komentar button {
-    margin-left: 8px;
-    padding: 2px 8px;
-    font-size: 12px;
-}
-
 salam-pengguna {
     display: block;
     font-style: italic;
@@ -109,9 +94,30 @@ body.dark-mode salam-pengguna {
     color: #e48cf0;
 }
 
-/* Kartu konten (Tentang, Hobi, Kemampuan, Portofolio) */
-.kartu,
-.daftar-artikel article {
+
+:root {
+    
+    --kartu-garis: #e0d5f5;
+    --kartu-latar: #ffffff;
+    --kartu-hover: #eef4fb;
+    --kartu-radius: 8px;      
+    --kartu-teks: #7a0085;    
+    --tombol-garis: #8a0394;
+    --tombol-latar: #ffffff;
+    --tombol-teks: #1a1a1a;
+    
+    --komentar-aksen: #8a0394;
+    --komentar-latar: transparent;
+}
+
+
+kartu-artikel::part(tombol-hapus) {
+    border-color: #d9534f;
+    color: #d9534f;
+}
+
+
+.kartu {
     border: 1px solid #e0d5f5;
     border-radius: 8px;
     padding: 16px;
@@ -123,7 +129,7 @@ aside ul {
     padding-left: 20px;
 }
 
-/*  CSS Grid pada daftar artikel */
+
 .daftar-artikel {
     display: grid;
     grid-template-columns: 1fr;
@@ -131,11 +137,7 @@ aside ul {
     padding: 12px 0;
 }
 
-.daftar-artikel article button {
-    margin: 8px 8px 0 0;
-}
 
-/*  Menata main & aside berdampingan */
 main {
     display: flex;
     flex-direction: column;
@@ -184,10 +186,9 @@ aside {
 
 #daftar-komentar {
     margin-top: 12px;
-    padding-left: 20px;
 }
 
-/*  Media query mobile-first */
+
 @media (min-width: 768px) {
     .daftar-artikel {
         grid-template-columns: repeat(2, 1fr);
@@ -217,10 +218,20 @@ footer {
     margin-top: 20px;
 }
 
-/* ===== Dark mode ===== */
 body.dark-mode {
     background-color: #1a1a1a;
     color: #f2f2f2;
+
+    
+    --kartu-garis: #555;
+    --kartu-latar: #242424;
+    --kartu-hover: #2d3a4d;
+    --kartu-teks: #f2f2f2;
+    --tombol-garis: #666;
+    --tombol-latar: #333;
+    --tombol-teks: #f2f2f2;
+    --komentar-aksen: #e48cf0;
+    --komentar-latar: #262626;
 }
 
 body.dark-mode header { background-color: #1a1a1a; }
@@ -229,34 +240,24 @@ body.dark-mode table { background-color: #222; }
 body.dark-mode nav a { background-color: #333; }
 
 body.dark-mode .kartu,
-body.dark-mode article,
 body.dark-mode aside { border-color: #444; background: #222; }
 
 body.dark-mode button { background: #333; color: #f2f2f2; border-color: #666; }
 
 body.dark-mode a { color: #e48cf0; }
 
-/* ===== Kelas bantu ===== */
+
 .tersembunyi {
     display: none !important;
-}
-
-.artikel-hover {
-    background-color: #eef4fb;
-}
-
-/* hover di dark mode (harus setelah aturan dark-mode article) */
-body.dark-mode .artikel-hover {
-    background-color: #2d3a4d;
 }
 
 img {
     width: 150px;
     height: 150px;
-    object-fit: cover; /* Memastikan foto tidak terdistorsi */
-    border-radius: 12px; /* Sudut bulat yang halus */
-    border: 2px solid rgba(238, 130, 238, 0.5); 
-    box-shadow: 0 4px 15px rgba(138, 3, 148, 0.15); /* Bayangan lembut di sekeliling foto */
+    object-fit: cover; 
+    border-radius: 12px; 
+    border: 2px solid rgba(238, 130, 238, 0.5);
+    box-shadow: 0 4px 15px rgba(138, 3, 148, 0.15); 
     margin: 10px 0;
     transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
@@ -284,4 +285,15 @@ img:hover {
 button:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+}
+
+kartu-artikel::part(tombol-like) {
+    background: #8a0394;
+    color: #ffffff;
+    border-color: #8a0394;
+    font-weight: bold;
+}
+
+kartu-artikel::part(tombol-like):hover {
+    background: #b100c0;
 }
