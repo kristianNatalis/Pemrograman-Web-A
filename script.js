@@ -61,58 +61,46 @@ if (tombolInfo && kotakInfo) {
   });
 }
 
-async function ujiFetch() {
-  const response = await fetch(BASE + "/posts?_limit=3");
-  
-  let data;
-  try {
-    data = await response.json();
-  } catch (error) {
-    console.error("Gagal parsing JSON:", error);
-    return;
-  }
-  
-  console.log(data);
-}
+
+
 const containerArtikel = document.querySelector(".daftar-artikel");
 
-async function muatArtikelDariAPI() {
-  const loading = document.querySelector("#loading");
-  if (loading) loading.style.display = "block";
 
-  try {
-    const response = await fetch(BASE + "/posts?_limit=5");
-    if (!response.ok) {
-      throw new Error("Status: " + response.status);
-    }
-    const daftarPost = await response.json();
-
-    daftarPost.forEach((post) => {
-      const kartu = document.createElement("kartu-artikel");
-      kartu.setAttribute("judul", post.title);
-      kartu.setAttribute("isi", post.body);
-      kartu.setAttribute("batas-like", "5");
-      containerArtikel.appendChild(kartu);
-    });
-  } catch (error) {
-    containerArtikel.textContent = "Gagal memuat artikel, silakan coba lagi nanti.";
-    console.error("Gagal mengambil data:", error);
-  } finally {
-    if (loading) loading.style.display = "none";
-  }
+function ambilLike() {
+  return JSON.parse(localStorage.getItem("like")) || {};
+}
+function simpanLike(obj) {
+  localStorage.setItem("like", JSON.stringify(obj));
 }
 
 if (containerArtikel) {
-  muatArtikelDariAPI();
+  
+  containerArtikel.addEventListener("suka", (e) => {
+    const kartu = e.target;
+    const judul = kartu.querySelector('[slot="judul"]').textContent;
+    console.log(`"${judul}" disuka: ${e.detail.jumlah} kali`);
 
-  containerArtikel.addEventListener("mouseover", (e) => {
-    const article = e.target.closest("article");
-    if (article) article.classList.add("artikel-hover");
+    const like = ambilLike();
+    like[kartu.dataset.id] = e.detail.jumlah;
+    simpanLike(like);
   });
 
-  containerArtikel.addEventListener("mouseout", (e) => {
-    const article = e.target.closest("article");
-    if (article) article.classList.remove("artikel-hover");
+  // hapus-artikel
+  containerArtikel.addEventListener("hapus-artikel", (e) => {
+    const kartu = e.target;
+    const like = ambilLike();
+    delete like[kartu.dataset.id];
+    simpanLike(like);
+    kartu.remove();
+  });
+
+  // "artikel-dimuat": pulihkan jumlah like lewat atribut "like"
+  containerArtikel.addEventListener("artikel-dimuat", () => {
+    const like = ambilLike();
+    containerArtikel.querySelectorAll("kartu-artikel").forEach((kartu) => {
+      const tersimpan = like[kartu.dataset.id];
+      if (tersimpan) kartu.setAttribute("like", tersimpan);
+    });
   });
 }
 
@@ -170,7 +158,7 @@ async function kirimKomentarKeServer(nama, pesan) {
   return await response.json(); // server membalas data + id baru
 }
 
-/*  edit komentar dengan PATCH */
+/* edit komentar dengan PATCH */
 async function perbaruiKomentarKeServer(id, nama, pesan) {
   const response = await fetch(`${BASE}/comments/${id}`, {
     method: "PATCH",
@@ -185,6 +173,27 @@ async function perbaruiKomentarKeServer(id, nama, pesan) {
 async function hapusKomentarDiServer(id) {
   const response = await fetch(`${BASE}/comments/${id}`, { method: "DELETE" });
   cekResponse(response);
+}
+
+
+function isiKomentar(kartu, nama, pesan) {
+  let elNama = kartu.querySelector('[slot="nama"]');
+  let elPesan = kartu.querySelector(":scope > span");
+  if (!elNama) {
+    elNama = document.createElement("strong");
+    elNama.slot = "nama";
+    elPesan = document.createElement("span");
+    kartu.append(elNama, elPesan);
+  }
+  elNama.textContent = nama;
+  elPesan.textContent = pesan;
+}
+
+function bacaKomentar(kartu) {
+  return {
+    nama: kartu.querySelector('[slot="nama"]').textContent,
+    pesan: kartu.querySelector(":scope > span").textContent,
+  };
 }
 
 if (formKomentar && daftarKomentar) {
@@ -211,8 +220,7 @@ if (formKomentar && daftarKomentar) {
     const itemKomentar = document.createElement("kartu-komentar");
     itemKomentar.dataset.id = k.id;
     if (k.kunci !== undefined) itemKomentar.dataset.kunci = k.kunci;
-    itemKomentar.setAttribute("nama", k.nama);
-    itemKomentar.setAttribute("pesan", k.pesan);
+    isiKomentar(itemKomentar, k.nama, k.pesan);
 
     daftarKomentar.appendChild(itemKomentar);
     tombolHapusSemua.classList.remove("tersembunyi");
@@ -265,12 +273,11 @@ if (formKomentar && daftarKomentar) {
       if (komentarDiedit) {
         // PATCH komentar yang diedit
         await perbaruiKomentarKeServer(komentarDiedit.dataset.id, nama, pesan);
-        komentarDiedit.setAttribute("nama", nama);
-        komentarDiedit.setAttribute("pesan", pesan);
+        isiKomentar(komentarDiedit, nama, pesan);
         ubahKomentarTersimpan(komentarDiedit.dataset.kunci, nama, pesan);
         komentarDiedit = null;
       } else {
-        // POST komentar baru, tampilkan respons server 
+        // POST komentar baru, tampilkan respons server
         const hasil = await kirimKomentarKeServer(nama, pesan);
         const k = { id: hasil.id, kunci: Date.now(), nama: hasil.name, pesan: hasil.body };
         renderKomentar(k);
@@ -290,22 +297,22 @@ if (formKomentar && daftarKomentar) {
     }
   });
 
+  
   daftarKomentar.addEventListener("edit-komentar", (e) => {
     const kartu = e.target;
     komentarDiedit = kartu;
-    inputNama.value = kartu.getAttribute("nama");
-    inputPesan.value = kartu.getAttribute("pesan");
+    const { nama, pesan } = bacaKomentar(kartu);
+    inputNama.value = nama;
+    inputPesan.value = pesan;
     tombolKirim.textContent = "Simpan Perubahan";
     inputNama.focus();
   });
 
   daftarKomentar.addEventListener("hapus-komentar", async (e) => {
     const kartu = e.target;
-    const tombol = kartu.querySelector(".btn-hapus-komen");
-    tombol.disabled = true;
-    tombol.textContent = "Menghapus...";
+    kartu.setAttribute("sibuk", ""); 
     try {
-      await hapusKomentarDiServer(kartu.dataset.id);
+      await hapusKomentarDiServer(e.detail.id);
       if (komentarDiedit === kartu) {
         komentarDiedit = null;
         formKomentar.reset();
@@ -319,8 +326,7 @@ if (formKomentar && daftarKomentar) {
     } catch (error) {
       tampilkanError(error);
       console.error(error);
-      tombol.disabled = false;
-      tombol.textContent = "Hapus";
+      kartu.removeAttribute("sibuk");
     }
   });
 
@@ -337,7 +343,7 @@ const tombolReset = document.querySelector("#btn-reset");
 if (tombolReset) {
   tombolReset.addEventListener("click", () => {
     const konfirmasi = confirm(
-      "Hapus semua data tersimpan (tema, komentar)?");
+      "Hapus semua data tersimpan (tema, komentar, like)?");
     if (konfirmasi) {
       localStorage.clear();
       sessionStorage.clear();
