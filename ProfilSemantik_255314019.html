@@ -5,14 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profil Diri Saya</title>
     <link rel="stylesheet" href="ProfilSemantik.css">
+    
+    <script src="auth.js"></script>
+    <script>wajibLogin();</script>
 </head>
 <body>
     <header>
         <div class="center-content">
-            <!-- Tombol tema & info (Modul 3) -->
+            <div class="profil-login">
+                <img id="foto-profil" class="tersembunyi" alt="Foto akun" width="40" height="40">
+                <span id="email-profil" class="email-profil"></span>
+                <info-sesi id="info-sesi"></info-sesi>
+            </div>
+
             <nav>
-                <button id="btn-tema">Mode Gelap</button>
+                <tombol-tema></tombol-tema>
                 <button id="btn-info">Info Tambahan</button>
+                <button id="btn-logout" type="button">Keluar</button>
+                <a href="Login.html" id="btn-login-tamu" class="btn-login-nav">Masuk</a>
             </nav>
 
             <nav>
@@ -25,6 +35,7 @@
             </nav>
 
             <h1 class="color-text">Profil Saya</h1>
+            <salam-pengguna nama="Pengunjung"></salam-pengguna>
             <img src="foto.png" alt="Foto Profil">
 
             <table class="color-text">
@@ -57,9 +68,7 @@
     </header>
 
     <main>
-        <!-- Semua konten utama dibungkus <section> supaya sejajar dengan <aside> -->
         <section>
-            <!-- Bagian ini yang disembunyikan/ditampilkan tombol "Info Tambahan" -->
             <div id="info-tambahan">
             <article id="Tentang" class="kartu">
                 <h2 class="color-text">Tentang saya</h2>
@@ -94,10 +103,9 @@
             </article>
             </div>
 
-            <!-- Artikel dirender oleh script.js ke dalam .daftar-artikel -->
             <div id="Artikel">
-                <h2 class="color-text">Artikel Terbaru</h2>
-                <div class="daftar-artikel"></div>
+                <h2 class="color-text">Info Tambahan</h2>
+                <daftar-artikel class="daftar-artikel" batas="6" batas-like="5"></daftar-artikel>
             </div>
         </section>
 
@@ -107,8 +115,13 @@
                 <li>Email: kristiannatalis979@gmail.com</li>
                 <li>Instagram: @another.kriss</li>
                 <li>Discord: moonscream_0</li>
+
             </ul>
+            <h3 class="color-text">Tentang Penulis Artikel</h3>
+            <p>Nama: <span id="nama-penulis">...</span></p>
+            <p>Email: <span id="email-penulis">...</span></p>
         </aside>
+
     </main>
 
     <section id="komentar">
@@ -118,12 +131,14 @@
             <textarea id="input-pesan" placeholder="Tulis komentar..." required></textarea>
             <button type="submit">Kirim</button>
         </form>
-        <ul id="daftar-komentar"></ul>
+        <div id="daftar-komentar"></div>
     </section>
 
     <footer>
         <p>&copy; 2026 Kristian Natalis. Hak cipta dilindungi.</p>
+        <button id="btn-reset">Reset Semua Data</button>
     </footer>
+    <script src="komponen.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
