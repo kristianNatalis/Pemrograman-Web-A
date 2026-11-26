@@ -1,4 +1,3 @@
-/* B.2 Reset dasar dan box-sizing */
 * {
     margin: 0;
     padding: 0;
@@ -11,7 +10,6 @@ body {
     background-color: #f3effb;
 }
 
-/* B.3 Flexbox pada header dan nav */
 header {
     display: flex;
     justify-content: center;
@@ -45,7 +43,6 @@ button {
     font: inherit;
 }
 
-/* Elemen Header & Tabel Responsif */
 .center-content {
     text-align: center;
     width: 100%;
@@ -84,9 +81,35 @@ td {
     text-align: left;
 }
 
-/* Kartu konten statis (Tentang, Hobi, Kemampuan, Portofolio) */
-.kartu,
-.daftar-artikel article {
+salam-pengguna {
+    display: block;
+    font-style: italic;
+    color: #8a0394;
+}
+
+body.dark-mode salam-pengguna {
+    color: #e48cf0;
+}
+
+:root {
+    --kartu-garis: #e0d5f5;
+    --kartu-latar: #ffffff;
+    --kartu-hover: #eef4fb;
+    --kartu-radius: 8px;
+    --kartu-teks: #1a1a1a;
+    --tombol-garis: #8a0394;
+    --tombol-latar: #ffffff;
+    --tombol-teks: #1a1a1a;
+    --komentar-aksen: #8a0394;
+    --komentar-latar: transparent;
+}
+
+kartu-artikel::part(tombol-hapus) {
+    border-color: #d9534f;
+    color: #d9534f;
+}
+
+.kartu {
     border: 1px solid #e0d5f5;
     border-radius: 8px;
     padding: 16px;
@@ -98,7 +121,6 @@ aside ul {
     padding-left: 20px;
 }
 
-/* B.4 CSS Grid pada daftar artikel */
 .daftar-artikel {
     display: grid;
     grid-template-columns: 1fr;
@@ -106,11 +128,6 @@ aside ul {
     padding: 12px 0;
 }
 
-.daftar-artikel article button {
-    margin: 8px 8px 0 0;
-}
-
-/* B.5 Menata main & aside berdampingan */
 main {
     display: flex;
     flex-direction: column;
@@ -138,7 +155,6 @@ aside {
     align-self: flex-start;
 }
 
-/* Form komentar */
 #komentar {
     padding: 16px;
 }
@@ -159,10 +175,8 @@ aside {
 
 #daftar-komentar {
     margin-top: 12px;
-    padding-left: 20px;
 }
 
-/* B.6 Media query mobile-first */
 @media (min-width: 768px) {
     .daftar-artikel {
         grid-template-columns: repeat(2, 1fr);
@@ -192,10 +206,19 @@ footer {
     margin-top: 20px;
 }
 
-/* ===== Dark mode ===== */
 body.dark-mode {
     background-color: #1a1a1a;
     color: #f2f2f2;
+
+    --kartu-garis: #555;
+    --kartu-latar: #242424;
+    --kartu-hover: #2d3a4d;
+    --kartu-teks: #f2f2f2;
+    --tombol-garis: #666;
+    --tombol-latar: #333;
+    --tombol-teks: #f2f2f2;
+    --komentar-aksen: #e48cf0;
+    --komentar-latar: #262626;
 }
 
 body.dark-mode header { background-color: #1a1a1a; }
@@ -204,41 +227,190 @@ body.dark-mode table { background-color: #222; }
 body.dark-mode nav a { background-color: #333; }
 
 body.dark-mode .kartu,
-body.dark-mode article,
 body.dark-mode aside { border-color: #444; background: #222; }
 
 body.dark-mode button { background: #333; color: #f2f2f2; border-color: #666; }
 
 body.dark-mode a { color: #e48cf0; }
 
-/* ===== Kelas bantu ===== */
 .tersembunyi {
     display: none !important;
-}
-
-.artikel-hover {
-    background-color: #eef4fb;
-}
-
-/* hover di dark mode (harus setelah aturan dark-mode article) */
-body.dark-mode .artikel-hover {
-    background-color: #2d3a4d;
 }
 
 img {
     width: 150px;
     height: 150px;
-    object-fit: cover; /* Memastikan foto tidak terdistorsi */
-    border-radius: 12px; /* Sudut bulat yang halus */
-    border: 2px solid rgba(238, 130, 238, 0.5); 
-    box-shadow: 0 4px 15px rgba(138, 3, 148, 0.15); /* Bayangan lembut di sekeliling foto */
+    object-fit: cover;
+    border-radius: 12px;
+    border: 2px solid rgba(238, 130, 238, 0.5);
+    box-shadow: 0 4px 15px rgba(138, 3, 148, 0.15);
     margin: 10px 0;
     transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
-
 img:hover {
-    transform: translateY(-3px); /* Foto sedikit terangkat */
-    border-color: #8a0394; /* Warna border menyala sesuai tema */
-    box-shadow: 0 8px 20px rgba(138, 3, 148, 0.3); /* Bayangan lebih jelas */
+    transform: translateY(-3px);
+    border-color: #8a0394;
+    box-shadow: 0 8px 20px rgba(138, 3, 148, 0.3);
 }
+
+.spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 3px solid #ccc;
+  border-top-color: #4a90d9;
+  border-radius: 50%;
+  vertical-align: middle;
+  animation: putar 0.8s linear infinite;
+}
+@keyframes putar {
+  to { transform: rotate(360deg); }
+}
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.profil-login {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+#foto-profil {
+    width: 40px;
+    height: 40px;
+    margin: 0;
+    border: 2px solid #8a0394;
+    border-radius: 50%;
+    box-shadow: none;
+}
+#foto-profil:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.email-profil {
+    font-size: 0.9rem;
+    color: #5d0069;
+}
+body.dark-mode .email-profil { color: #e48cf0; }
+
+info-sesi {
+    --sesi-latar: #ffffff;
+    --sesi-teks: #8a0394;
+    --sesi-garis: #8a0394;
+}
+body.dark-mode info-sesi {
+    --sesi-latar: #333333;
+    --sesi-teks: #e48cf0;
+    --sesi-garis: #e48cf0;
+}
+
+body.tamu #btn-logout,
+body.tamu .profil-login,
+body.tamu #form-komentar,
+body.tamu #komentar > button {
+    display: none;
+}
+body.tamu kartu-artikel::part(tombol-hapus),
+body.tamu kartu-komentar::part(tombol-hapus),
+body.tamu kartu-komentar::part(tombol-edit) {
+    display: none;
+}
+
+#btn-login-tamu {
+    display: none;
+    color: #8a0394;
+    font-weight: bold;
+    padding: 6px 14px;
+    background-color: #ffffff;
+    border: 1px solid #8a0394;
+    border-radius: 6px;
+    text-decoration: none;
+}
+
+body.tamu #btn-login-tamu {
+    display: inline-block;
+}
+
+body.dark-mode #btn-login-tamu {
+    background-color: #333;
+    color: #e48cf0;
+    border-color: #666;
+}
+
+.halaman-login main {
+    flex-direction: column;
+    max-width: 420px;
+    margin: 3rem auto;
+    padding: 24px;
+    border: 1px solid #e0d5f5;
+    border-radius: 8px;
+    background-color: #ffffff;
+}
+
+#form-login {
+    display: grid;
+    gap: 8px;
+}
+
+#form-login input[type="text"],
+#form-login input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    border: 2px solid #bbbbbb;
+    border-radius: 6px;
+    font: inherit;
+}
+
+#form-login .ingat {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+#form-login button[type="submit"] { justify-self: start; }
+
+.btn-tamu {
+    margin-top: 6px;
+    width: 100%;
+    padding: 8px;
+    background: transparent;
+    border: 1px dashed #8a0394;
+    color: #8a0394;
+    border-radius: 6px;
+    cursor: pointer;
+    font: inherit;
+    text-align: center;
+}
+
+.btn-tamu:hover {
+    background: #f3effb;
+}
+
+body.dark-mode .btn-tamu {
+    border-color: #e48cf0;
+    color: #e48cf0;
+}
+
+body.dark-mode .btn-tamu:hover {
+    background: #333333;
+}
+
+#pesan { min-height: 1.6em; color: #d9534f; font-weight: bold; }
+
+.petunjuk { font-size: 0.85rem; color: #666666; }
+
+body.dark-mode.halaman-login main { background-color: #222222; border-color: #444444; }
+body.dark-mode #form-login input[type="text"],
+body.dark-mode #form-login input[type="password"] {
+    background: #222222;
+    color: #f2f2f2;
+    border-color: #444444;
+}
+body.dark-mode .petunjuk { color: #aaaaaa; }
