@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masuk — Profil Diri Saya</title>
+    <link rel="stylesheet" href="ProfilSemantik.css">
+</head>
+<body class="halaman-login">
+    <main>
+        <h1 class="color-text">Masuk</h1>
+        <form id="form-login">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" autocomplete="username" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" autocomplete="current-password" required>
+
+            <label class="ingat">
+                <input type="checkbox" id="ingat" name="ingat"> Ingat saya di perangkat ini
+            </label>
+
+            <button type="submit">Masuk</button>
+            <button type="button" id="btn-tamu" class="btn-tamu">Masuk sebagai Tamu</button>
+            <p id="pesan" role="alert" aria-live="polite"></p>
+        </form>
+        <p class="petunjuk">Akun uji (API latihan): <code>emilys</code> / <code>emilyspass</code></p>
+    </main>
+
+    <script src="auth.js"></script>
+    <script>
+        "use strict";
+
+        if (sudahLogin()) location.replace("ProfilSemantik_255314019.html");
+
+        if (localStorage.getItem("tema") === "dark") document.body.classList.add("dark-mode");
+
+        const form = document.querySelector("#form-login");
+        const pesan = document.querySelector("#pesan");
+        const btnTamu = document.querySelector("#btn-tamu");
+
+        if (btnTamu) {
+            btnTamu.addEventListener("click", () => {
+                sessionStorage.setItem("modeTamu", "true");
+                location.href = "ProfilSemantik_255314019.html";
+            });
+        }
+
+        if (new URLSearchParams(location.search).get("sesi") === "habis") {
+            pesan.textContent = "Sesi berakhir, silakan masuk lagi.";
+        }
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const username = form.username.value.trim();
+            const password = form.password.value;
+
+            if (username === "" || password === "") {
+                pesan.textContent = "Username dan password wajib diisi.";
+                return;
+            }
+
+            const tombol = form.querySelector("button[type='submit']");
+            tombol.disabled = true;
+            pesan.textContent = "Memproses...";
+            try {
+                await login(username, password, form.ingat.checked);
+                location.href = "ProfilSemantik_255314019.html";
+            } catch (error) {
+                pesan.textContent = error instanceof TypeError
+                    ? "Tidak dapat terhubung ke server. Periksa koneksi Anda."
+                    : error.message;
+                tombol.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
